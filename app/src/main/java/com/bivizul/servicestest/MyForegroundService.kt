@@ -28,10 +28,12 @@ class MyForegroundService : Service() {
         // код внутри выполняется на главном потоке
         log("onStartCommand")
         coroutineScope.launch {
-            for (i in 0 until 100) {
+            for (i in 0 until 3) {
                 delay(1000)
                 log("Timer $i")
             }
+            // останавливаем сервис изнутри
+            stopSelf()
         }
         return START_STICKY
     }
