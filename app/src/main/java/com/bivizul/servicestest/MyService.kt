@@ -7,7 +7,7 @@ import android.os.IBinder
 import android.util.Log
 import kotlinx.coroutines.*
 
-class MyService: Service() {
+class MyService : Service() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -21,7 +21,7 @@ class MyService: Service() {
         log("onStartCommand")
         val start = intent?.getIntExtra(EXTRA_START, 0) ?: 0
         coroutineScope.launch {
-            for (i in start until start + 100){
+            for (i in start until start + 100) {
                 delay(1000)
                 log("Timer $i")
             }
@@ -39,15 +39,15 @@ class MyService: Service() {
         TODO("Not yet implemented")
     }
 
-    private fun log(message: String){
-        Log.d("SERVICE_TAG","MyService: $message")
+    private fun log(message: String) {
+        Log.d("SERVICE_TAG", "MyService: $message")
     }
 
-    companion object{
+    companion object {
 
         private const val EXTRA_START = "start"
 
-        fun newIntent(context: Context, start: Int): Intent{
+        fun newIntent(context: Context, start: Int): Intent {
             return Intent(context, MyService::class.java).apply {
                 putExtra(EXTRA_START, start)
             }
