@@ -27,7 +27,6 @@ class MyService: Service() {
             }
         }
         return START_REDELIVER_INTENT
-
     }
 
     override fun onDestroy() {

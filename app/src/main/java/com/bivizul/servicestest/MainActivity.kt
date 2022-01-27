@@ -1,10 +1,17 @@
 package com.bivizul.servicestest
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.NotificationCompat
 import com.bivizul.servicestest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    var id = 1
 
     private val binding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
@@ -16,5 +23,31 @@ class MainActivity : AppCompatActivity() {
         binding.simpleService.setOnClickListener {
             startService(MyService.newIntent(this, 25))
         }
+        binding.foregroundService.setOnClickListener {
+            showNotification()
+        }
+    }
+
+    private fun showNotification() {
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Title")    // устанавливаем заголовок
+            .setContentText("Text")     // установим текст
+            .setSmallIcon(R.drawable.ic_launcher_background)    // установим иконку
+            .build()
+        notificationManager.notify(id++,notification)
+    }
+
+    companion object{
+        private const val CHANNEL_ID = "channel_id"
+        private const val CHANNEL_NAME = "channel_name"
     }
 }
