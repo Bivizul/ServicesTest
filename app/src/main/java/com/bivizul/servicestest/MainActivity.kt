@@ -1,12 +1,10 @@
 package com.bivizul.servicestest
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.os.Bundle
-import androidx.core.app.NotificationCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bivizul.servicestest.databinding.ActivityMainBinding
 
@@ -35,6 +33,21 @@ class MainActivity : AppCompatActivity() {
                 this,
                 MyIntentService.newIntent(this)
             )
+        }
+        binding.jobIntentService.setOnClickListener {
+            // указываем нужный сервис
+            val componentName = ComponentName(this, MyJobService::class.java)
+
+            // устанавливаем ограничения
+            val jobInfo = JobInfo.Builder(MyJobService.JOB_ID, componentName)
+                .setRequiresCharging(true)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .build()
+
+            // планируем выполнение сервиса
+            val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobScheduler.schedule(jobInfo)
         }
     }
 }
