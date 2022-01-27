@@ -27,8 +27,14 @@ class MainActivity : AppCompatActivity() {
         binding.foregroundService.setOnClickListener {
             ContextCompat.startForegroundService(   // ContentCompat проверяет API >= 26
                 this,
-                MyForegroundService.newIntent(this
-                ))
+                MyForegroundService.newIntent(this)
+            )
+        }
+        binding.intentService.setOnClickListener {
+            ContextCompat.startForegroundService(   // ContentCompat проверяет API >= 26
+                this,
+                MyIntentService.newIntent(this)
+            )
         }
     }
 }
