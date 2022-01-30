@@ -53,7 +53,10 @@ class MainActivity : AppCompatActivity() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val intent = MyJobService.newIntent(page++)
+                // составляем очередь
                 jobScheduler.enqueue(jobInfo, JobWorkItem(intent))
+            } else{
+                startService(MyIntentService2.newIntent(this, page++))
             }
         }
     }
