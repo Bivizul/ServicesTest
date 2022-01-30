@@ -26,18 +26,21 @@ class MainActivity : AppCompatActivity() {
             stopService(MyForegroundService.newIntent(this))
             startService(MyService.newIntent(this, 25))
         }
+
         binding.foregroundService.setOnClickListener {
             ContextCompat.startForegroundService(   // ContentCompat проверяет API >= 26
                 this,
                 MyForegroundService.newIntent(this)
             )
         }
+
         binding.intentService.setOnClickListener {
             ContextCompat.startForegroundService(   // ContentCompat проверяет API >= 26
                 this,
                 MyIntentService.newIntent(this)
             )
         }
+
         binding.jobScheduler.setOnClickListener {
             // указываем нужный сервис
             val componentName = ComponentName(this, MyJobService::class.java)
@@ -58,6 +61,10 @@ class MainActivity : AppCompatActivity() {
             } else{
                 startService(MyIntentService2.newIntent(this, page++))
             }
+        }
+
+        binding.jobIntentService.setOnClickListener {
+            MyJobIntentService.enqueue(this,page)
         }
     }
 }
